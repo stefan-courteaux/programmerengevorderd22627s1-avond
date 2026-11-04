@@ -5,6 +5,7 @@ using WebShoppie.Storage;
 using WebShoppie.Storage.Customers;
 using WebShoppie.Storage.Orders;
 using WebShoppie.Storage.Products;
+using WebShoppie.Storage.Queries;
 
 var builder = WebApplication.CreateBuilder(args);
 
@@ -18,6 +19,7 @@ builder.Services.AddScoped<IProductService, ProductService>();
 builder.Services.AddScoped<ICustomerRepository, DapperCustomerRepository>();
 builder.Services.AddScoped<IOrderRepository, DapperOrderRepository>();
 builder.Services.AddScoped<IProductRepository, DapperProductRepository>();
+builder.Services.AddSingleton<ProductQueries>();
 // AddSingleton - 1 object instantie die hergebruikt wordt zolang
 // server runt voor elke vermelding interface in constructor
 // AddScoped() - 1 instantie die hergebruikt wordt voor elke vermelding

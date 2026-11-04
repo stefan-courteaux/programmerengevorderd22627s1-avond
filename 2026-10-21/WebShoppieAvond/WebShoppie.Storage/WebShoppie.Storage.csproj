@@ -16,4 +16,13 @@
       <PackageReference Include="Npgsql" Version="10.0.3" />
     </ItemGroup>
 
+    <ItemGroup>
+      <None Update="Queries\Products\CreateProduct.sql">
+        <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+      </None>
+      <None Update="Queries\Products\GetProductById.sql">
+        <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+      </None>
+    </ItemGroup>
+
 </Project>

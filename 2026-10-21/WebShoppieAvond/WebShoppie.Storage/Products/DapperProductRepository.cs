@@ -2,24 +2,18 @@ using Dapper;
 using Microsoft.Extensions.Options;
 using Npgsql;
 using WebShoppie.Storage.DataModel;
+using WebShoppie.Storage.Queries;
 
 namespace WebShoppie.Storage.Products;
 
-public class DapperProductRepository(IOptions<DapperRepositoryOptions> options) : IProductRepository
+public class DapperProductRepository(IOptions<DapperRepositoryOptions> options, ProductQueries productQueries) : IProductRepository
 {
     private readonly string _connectionString = options.Value.ConnectionString;
 
     public ProductDataModel Create(ProductDataModel product)
     {
-        const string sql =
-            """
-            INSERT INTO storefront.products(title, description, price, stockcount)
-            VALUES (@title, @description, @price, @stockcount)
-            RETURNING ProductId
-            """;
-
         using var connection = new NpgsqlConnection(_connectionString);
-        var id = connection.ExecuteScalar<int>(sql, product);
+        var id = connection.ExecuteScalar<int>(productQueries.CreateProduct, product);
 
         return GetById(id) ?? throw new InvalidOperationException(
             $"Product {product.Title} could not be created");
@@ -27,10 +21,8 @@ public class DapperProductRepository(IOptions<DapperRepositoryOptions> options) 
 
     public ProductDataModel? GetById(int id)
     {
-        const string sql = "SELECT * FROM storefront.products WHERE ProductId = @id";
-
         using var connection = new NpgsqlConnection(_connectionString);
-        return connection.QuerySingleOrDefault<ProductDataModel>(sql, new { id });
+        return connection.QuerySingleOrDefault<ProductDataModel>(productQueries.GetProductById, new { id });
     }
 
     public IEnumerable<ProductDataModel> GetAll()
