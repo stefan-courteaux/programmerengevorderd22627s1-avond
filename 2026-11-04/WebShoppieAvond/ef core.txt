@@ -1,0 +1,14 @@
+dotnet ef dbcontext scaffold "Server=localhost;Port=5432;Userid=admin;Password=secret;Database=pg2db" Npgsql.EntityFrameworkCore.PostgreSQL
+
+dotnet ef dbcontext scaffold \
+"Server=localhost;Port=5432;Userid=admin;Password=secret;Database=pg2db" \
+Npgsql.EntityFrameworkCore.PostgreSQL \
+--context WebShoppieDbContext \
+--output-dir Entities \
+--context-dir ./ \
+--force
+
+  Assembly 'WebShoppie.Storage.DataModel' with identity 'WebShoppie.Storage.DataModel, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null' 
+  uses 'Microsoft.EntityFrameworkCore, Version=10.0.14.0, Culture=neutral, PublicKeyToken=adb9793829ddae60' 
+  which has a higher version than referenced assembly 'Microsoft.EntityFrameworkCore' 
+  with identity 'Microsoft.EntityFrameworkCore, Version=10.0.4.0, Culture=neutral, PublicKeyToken=adb9793829ddae60'

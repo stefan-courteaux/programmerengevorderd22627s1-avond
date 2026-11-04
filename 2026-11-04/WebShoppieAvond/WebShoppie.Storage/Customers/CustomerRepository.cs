@@ -1,0 +1,45 @@
+using WebShoppie.Storage.DataModel;
+using WebShoppie.Storage.DataModel.Entities;
+
+namespace WebShoppie.Storage.Customers;
+
+public class CustomerRepository : ICustomerRepository
+{
+    private readonly Dictionary<int, CustomerDataModel> _dataModels = new();
+    
+    public CustomerDataModel Create(CustomerDataModel customer)
+    {
+        // Id bepalen - super crappy in memory
+        var newId = 1;
+        if (_dataModels.Keys.Any())
+            newId = _dataModels.Keys.Max() + 1;
+
+        // customer toevoegen
+        _dataModels[newId] = customer;
+        customer.Customerid = newId;
+        
+        //customer returnen uit db
+        return _dataModels[newId];
+    }
+
+    public CustomerDataModel? GetById(int id)
+    {
+        return _dataModels.GetValueOrDefault(id);
+    }
+
+    public IEnumerable<CustomerDataModel> GetAll()
+    {
+        return _dataModels.Values;
+    }
+
+    public bool Delete(int customerId)
+    {
+        return _dataModels.Remove(customerId);
+    }
+
+    public CustomerDataModel Update(CustomerDataModel customer)
+    {
+        _dataModels[customer.Customerid] = customer;
+        return _dataModels[customer.Customerid];
+    }
+}
