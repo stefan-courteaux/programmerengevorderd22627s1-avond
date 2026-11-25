@@ -2,20 +2,16 @@ using Microsoft.EntityFrameworkCore;
 using WebShoppie.Domain.Services.Customers;
 using WebShoppie.Domain.Services.Orders;
 using WebShoppie.Domain.Services.Products;
-using WebShoppie.Storage;
 using WebShoppie.Storage.Customers;
 using WebShoppie.Storage.DataModel;
 using WebShoppie.Storage.Orders;
 using WebShoppie.Storage.Products;
-using WebShoppie.Storage.Queries;
 
 var builder = WebApplication.CreateBuilder(args);
 
-// nodig voor dapper variant, niet voor ef core
-/*
-builder.Services.Configure<DapperRepositoryOptions>(
-    builder.Configuration.GetSection(nameof(DapperRepositoryOptions)));
-*/
+// nodig voor Dapper variant, niet voor ef core
+//builder.Services.Configure<DapperRepositoryOptions>(
+//    builder.Configuration.GetSection(nameof(DapperRepositoryOptions)));
 
 builder.Services.AddDbContext<WebShoppieDbContext>(
     optionsBuilder => optionsBuilder.UseNpgsql(
